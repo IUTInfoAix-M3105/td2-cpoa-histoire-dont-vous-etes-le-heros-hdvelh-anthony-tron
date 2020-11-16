@@ -146,9 +146,14 @@ public class Event extends NodeMultiple {
 			guiManager.outputln((i+1) + "." + daughters[i].getData());
 		}
 		
+		int nextIndex;
+		
 		do {
 			playerAnswer = guiManager.getInputReader().next();
-		} while(indexIsOutOfRange(interpretAnswer()));
+		} while(indexIsOutOfRange(nextIndex = interpretAnswer()));
+		
+		Event nextEvent = (Event) daughters[nextIndex];
+		nextEvent.run();
 	}
 	
 }

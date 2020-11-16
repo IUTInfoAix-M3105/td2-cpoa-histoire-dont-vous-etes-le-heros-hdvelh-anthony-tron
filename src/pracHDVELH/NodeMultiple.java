@@ -19,7 +19,7 @@ public class NodeMultiple {
 	protected Object data;
 	protected NodeMultiple[] daughters;
 
-	private boolean indexIsOutOfRange(int i) {
+	protected boolean indexIsOutOfRange(int i) {
 		return i < 0 || i >= daughters.length;
 	}
 	

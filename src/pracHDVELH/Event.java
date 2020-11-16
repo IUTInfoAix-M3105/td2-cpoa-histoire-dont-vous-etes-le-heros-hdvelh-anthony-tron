@@ -5,9 +5,6 @@
  */
 package pracHDVELH;
 
-import java.util.Scanner;
-
-import myUtils.ErrorNaiveHandler;
 
 /**
  * @author prost
@@ -26,6 +23,7 @@ public class Event extends NodeMultiple {
 	public Event(GUIManager gui, String data) {
 		this.guiManager = gui;
 		this.data = data;
+		this.id = 0;
 	}
 	
 	public Event() {
@@ -51,19 +49,6 @@ public class Event extends NodeMultiple {
 	 */
 	public void setPlayerAnswer(String playerAnswer) {
 		this.playerAnswer = playerAnswer;
-	}
-
-	/**
-	 * @return the reader
-	 */
-	public Scanner getReader() {
-		return guiManager.getInputReader();
-	}
-
-	/**
-	 * @param reader the reader to set
-	 */
-	public void setReader(Scanner reader) {
 	}
 
 	/**
@@ -101,7 +86,7 @@ public class Event extends NodeMultiple {
 	 */
 	@Override
 	public Event getDaughter(int i) {
-		/* TO BE COMPLETED */
+		return (Event) super.getDaughter(i);
 	}
 
 	/**
@@ -110,7 +95,7 @@ public class Event extends NodeMultiple {
 	 * @param i
 	 */
 	public void setDaughter(Event daughter, int i) {
-		/* TO BE COMPLETED */
+		super.setDaughter(daughter, i);
 	}
 
 	/**
@@ -136,6 +121,35 @@ public class Event extends NodeMultiple {
 
 	/* Methods */
 	/* TO BE COMPLETED */
+	
+	public boolean isFinal() {
+		return hasDaughters();
+	}
+	
+	public int interpretAnswer() {
+		int i = 0;
+		
+		while (i < daughters.length) {
+			if (daughters[i].getData() == playerAnswer)
+				return i;
+			++i;
+		}
+		
+		guiManager.outputln("Votre choix n'a pas été trouvé");
+		
+		return -1;
+	}
+	
+	public void run() {
+		guiManager.outputln((String)data);
+		for (int i = 0; i < daughters.length; ++i) {
+			guiManager.outputln((i+1) + "." + daughters[i].getData());
+		}
+		
+		do {
+			playerAnswer = guiManager.getInputReader().next();
+		} while(indexIsOutOfRange(interpretAnswer()));
+	}
 	
 }
 

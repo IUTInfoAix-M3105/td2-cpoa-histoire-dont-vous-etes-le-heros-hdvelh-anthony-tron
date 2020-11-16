@@ -127,23 +127,14 @@ public class Event extends NodeMultiple {
 	}
 	
 	public int interpretAnswer() {
-		int i = 0;
-		
-		while (i < daughters.length) {
-			if (daughters[i].getData() == playerAnswer)
-				return i;
-			++i;
-		}
-		
-		guiManager.outputln("Votre choix n'a pas été trouvé");
-		
-		return -1;
+		return Integer.valueOf(playerAnswer);
 	}
 	
 	public void run() {
 		guiManager.outputln((String)data);
 		for (int i = 0; i < daughters.length; ++i) {
-			guiManager.outputln((i+1) + "." + daughters[i].getData());
+			if (daughters[i] != null)
+				guiManager.outputln((i+1) + "." + daughters[i].getData());
 		}
 		
 		int nextIndex;
@@ -151,6 +142,9 @@ public class Event extends NodeMultiple {
 		do {
 			playerAnswer = guiManager.getInputReader().next();
 		} while(indexIsOutOfRange(nextIndex = interpretAnswer()));
+		
+		if (isFinal())
+			return;
 		
 		Event nextEvent = (Event) daughters[nextIndex];
 		nextEvent.run();

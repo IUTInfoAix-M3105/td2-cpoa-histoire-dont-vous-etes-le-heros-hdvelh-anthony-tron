@@ -134,7 +134,7 @@ public class NodeMultiple {
 	 * Default constructor.
 	 */
 	public NodeMultiple() {
-		this.data = null;
+		this(null);
 	}
 
 	/**
@@ -145,6 +145,7 @@ public class NodeMultiple {
 	 */
 	public NodeMultiple(Object data) {
 		this.data = data;
+		this.daughters = new NodeMultiple[8];
 	}
 }
 

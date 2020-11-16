@@ -20,9 +20,17 @@ public class Event extends NodeMultiple {
 	private final int id;
 	private int chosenPath;
 	
-	public Event(GUIManager gui, String data) {
+	
+	public Event(GUIManager gui, String data, NodeMultiple[] daughters) {
+		super(data);
 		this.guiManager = gui;
-		this.data = data;
+		this.id = 0;
+		this.setDaughters(daughters);
+	}
+	
+	public Event(GUIManager gui, String data) {
+		super(data);
+		this.guiManager = gui;
 		this.id = 0;
 	}
 	
@@ -123,14 +131,15 @@ public class Event extends NodeMultiple {
 	/* TO BE COMPLETED */
 	
 	public boolean isFinal() {
-		return hasDaughters();
+		return !hasDaughters();
 	}
 	
 	public int interpretAnswer() {
-		return Integer.valueOf(playerAnswer);
+		return Integer.valueOf(playerAnswer) - 1;
 	}
 	
 	public void run() {
+		guiManager.outputln("");
 		guiManager.outputln((String)data);
 		for (int i = 0; i < daughters.length; ++i) {
 			if (daughters[i] != null)
@@ -143,8 +152,9 @@ public class Event extends NodeMultiple {
 			playerAnswer = guiManager.getInputReader().next();
 		} while(indexIsOutOfRange(nextIndex = interpretAnswer()));
 		
-		if (isFinal())
+		if (isFinal()) {
 			return;
+		}
 		
 		Event nextEvent = (Event) daughters[nextIndex];
 		nextEvent.run();

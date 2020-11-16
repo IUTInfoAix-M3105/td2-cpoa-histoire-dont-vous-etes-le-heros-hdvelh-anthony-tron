@@ -18,6 +18,10 @@ public class NodeMultiple {
 	
 	protected Object data;
 	protected NodeMultiple[] daughters;
+	
+	public static NodeMultiple[] all(NodeMultiple... args) {
+		return args;
+	}
 
 	protected boolean indexIsOutOfRange(int i) {
 		return i < 0 || i >= daughters.length;
